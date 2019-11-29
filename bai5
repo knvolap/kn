@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+void nhap(int a[],int &n)
+{
+	printf("Nhap so phan tu: ");
+	scanf("%d" ,&n);
+	printf("\nNhap day so:\n");
+	for(int i=1;i<=n;++i)
+	{
+		printf("So thu %d: " ,i);
+		scanf("%d" ,&a[i]);
+	}
+}
+void display(int a[],int min, int max)
+{
+	for(int i=min;i<=max;++i)
+	{
+		printf(" %d ",a[i]);
+	}
+}
+void hoanvi(int &x, int &y)
+{
+	int tg=x;
+	x=y;
+	y=tg;
+}
+int tachmang(int a[],int min, int max)
+{
+	int pv=a[max], left=min, right=max-1;
+	while(true)
+	{
+		while(left<=right && a[left]<pv)
+			left++;
+		while(left<=right && a[right]>=pv)
+			right--;
+		if(left>right)
+			break;
+		hoanvi(a[left],a[right]);
+		left++;
+		right--;
+	}
+	hoanvi(a[left],a[max]);
+	return left;
+}
+void SapXep(int a[], int min, int max,int i)
+{
+	if(min<max)
+	{
+		printf("\nDay so can sap xep cap %d: \nPV=%d Left=%d Right=%d :" ,i ,max ,min ,max-1);
+		display(a,min,max);
+		int x=tachmang(a,min,max);
+		SapXep(a,min,x-1,i+1);
+		SapXep(a,x+1,max,i+1);
+	}
+}
+main()
+{
+	int a[100], n;
+	printf("---------Thuat Toan Sap Xep Quick Sort---------\n\n");
+	nhap(a,n);
+	printf("\n\nDay so: ");
+	display(a,1,n);
+	printf("\n\nMo ta qua trinh: ");
+	SapXep(a,1,n,1);
+	printf("\n\nDay so da sap xep: ");
+	display(a,1,n);
+}
